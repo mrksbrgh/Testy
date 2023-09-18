@@ -1,0 +1,31 @@
+name: Testy
+options:
+  bundleIdPrefix: se.marber
+  deploymentTarget:
+    iOS: "16.4"
+targets:
+  Testy:
+    type: application
+    platform: iOS
+    sources: [Testy]
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+    scheme:
+      testTargets:
+        - name: TestyTests
+
+  TestyTests:
+    type: bundle.unit-test
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+    platform: iOS
+    sources:
+      - TestyTests/
+
+packages:
+  SwiftLint:
+    url: https://github.com/realm/SwiftLint.git
+    exactVersion: 0.52.4
+
+  MyLibrary:
+    path: ./MyLibrary
