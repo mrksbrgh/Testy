@@ -1,5 +1,5 @@
 //
-//  ContentViewModelTests.swift
+//  ModalViewModelTests.swift
 //  TestyTests
 //
 //  Created by Markus Bergh on 2023-08-21.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import Testy
 
-final class ContentViewModelTests: XCTestCase {
+final class ModalViewModelTests: XCTestCase {
 
   override func setUpWithError() throws {
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -19,7 +19,6 @@ final class ContentViewModelTests: XCTestCase {
   }
 
   func testViewModel() {
-    let viewModel = ContentViewModel()
-    viewModel.text = "Test"
+    let viewModel = ModalViewModelTests()
   }
 }

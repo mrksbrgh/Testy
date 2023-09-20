@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+final class ContentViewModel: ObservableObject {
+  @Published var text: String = ""
+}
