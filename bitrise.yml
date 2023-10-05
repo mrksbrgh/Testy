@@ -34,6 +34,8 @@ workflows:
   # This workflow runs the tests using system language and region
   run_tests_default_locale:
     steps:
+    - activate-ssh-key@4:
+      run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@6.1.1: {}
     - install-bundler: {}
     - script@1.1.6:
@@ -56,6 +58,8 @@ workflows:
   # This workflow runs the tests using Swedish language and region
   run_tests_swedish_locale:
     steps:
+    - activate-ssh-key@4:
+      run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@6.1.1: {}
     - install-bundler: {}
     - script@1.1.6:
