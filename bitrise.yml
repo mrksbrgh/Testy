@@ -75,6 +75,9 @@ workflows:
 
   # This workflow runs the tests using Swedish language and region
   run_tests_swedish_locale:
+    envs:
+      - ENV_LANGUAGE: sv
+      - ENV_REGION: SE
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
@@ -93,7 +96,7 @@ workflows:
         inputs:
         - content: |-
             #!/usr/bin/env bash
-            bundle exec fastlane tests test_language:sv test_region:SE
+            bundle exec fastlane tests test_language:$ENV_LANGUAGE test_region:$ENV_REGION
 
   # This workflow runs the tests using language and region from environment variable
   run_tests:
