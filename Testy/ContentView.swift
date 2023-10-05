@@ -19,13 +19,6 @@ struct ContentView: View {
 
         Text("Hello, world!")
       }
-
-      Divider()
-
-      VStack(alignment: .leading){
-        Text("This is the current text – \(viewModel.text)")
-        TextField("Text", text: $viewModel.text)
-      }
     }
     .padding()
   }
