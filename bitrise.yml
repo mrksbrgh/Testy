@@ -43,8 +43,8 @@ stages:
     - run_tests:
         title: Running tests with Swedish language and region
         envs:
-        - ENV_LANGUAGE: sv
-        - ENV_REGION: SE
+          - ENV_LANGUAGE: sv
+          - ENV_REGION: SE
   upload_testflight:
     workflows:
     - upload_testflight: {}
