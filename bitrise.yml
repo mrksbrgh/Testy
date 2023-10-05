@@ -16,135 +16,64 @@ app:
     - BITRISE_DISTRIBUTION_METHOD: development
 
 pipelines:
-  build_and_test_project:
+  test:
     stages:
-    - build_for_testing: {}
     - run_tests: {}
     - upload_testflight: {}
 
 stages:
-  build_for_testing:
-    workflows:
-    - build_app_for_test: {}
-    - build_package_for_test: {}
   run_tests:
     workflows:
-    - run_tests_app: {}
-    - run_tests_package: {}
+    - run_tests_default_locale: {}
+    - run_tests_swedish_locale: {}
   upload_testflight:
     workflows:
     - upload_testflight: {}
 
 workflows:
-  build_app_for_test:
+  # This workflow runs the tests using system language and region
+  run_tests_default_locale:
     steps:
-    - activate-ssh-key@4: {}
-    - git-clone@8: {}
-    - script@1:
-        title: Install XcodeGen with brew
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            brew install xcodegen
-    - script@1:
-        title: Generate project file with XcodeGen
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            xcodegen generate
-    - script@1:
+    - git-clone@6.1.1: {}
+    - install-bundler: {}
+    - script@1.1.6:
         title: Validate SwiftLint plugin
         inputs:
         - content: |-
             #!/usr/bin/env bash
 
-            # create directory for swift packages plugin
             mkdir -p ~/Library/org.swift.swiftpm/security
-
-            # copy contents
-            cp -r ./.swiftpm/security/ ~/Library/org.swift.swiftpm/security
-    - restore-cache@1:
-        inputs:
-        - key: |
-            spm-cache-{{ checksum "**/Package.resolved" }}
-            spm-cache-
-    - xcode-build-for-test@2:
-        inputs:
-        - scheme: $BITRISE_SCHEME
-        - destination: generic/platform=iOS Simulator
-    - save-cache@1:
-        inputs:
-        - key: spm-cache-{{ checksum "**/Package.resolved" }}
-        - paths: ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
-    - deploy-to-bitrise-io@2:
-        inputs:
-        - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
-    
-  build_package_for_test:
-    steps:
-    - activate-ssh-key@4: {}
-    - git-clone@8: {}
-    - script@1:
-        title: Install XcodeGen with brew
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            brew install xcodegen
-    - script@1:
-        title: Generate project file with XcodeGen
+            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
+    - script@1.1.6:
+        title: Generate project and run tests
         inputs:
         - content: |-
             #!/usr/bin/env bash
 
             xcodegen generate
-    - script@1:
+            bundle exec fastlane tests
+
+  # This workflow runs the tests using Swedish language and region
+  run_tests_swedish_locale:
+    steps:
+    - git-clone@6.1.1: {}
+    - install-bundler: {}
+    - script@1.1.6:
         title: Validate SwiftLint plugin
         inputs:
         - content: |-
             #!/usr/bin/env bash
 
-            # create directory for swift packages plugin
             mkdir -p ~/Library/org.swift.swiftpm/security
+            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
+    - script@1.1.6:
+        title: Generate project and run tests
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
 
-            # copy contents
-            cp -r ./.swiftpm/security/ ~/Library/org.swift.swiftpm/security
-    - restore-cache@1:
-        inputs:
-        - key: |
-            spm-cache-{{ checksum "**/Package.resolved" }}
-            spm-cache-
-    - xcode-build-for-test@2:
-        inputs:
-        - scheme: $BITRISE_PACKAGE_TEST_SCHEME
-        - destination: generic/platform=iOS Simulator
-    - save-cache@1:
-        inputs:
-        - key: spm-cache-{{ checksum "**/Package.resolved" }}
-        - paths: ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
-    - deploy-to-bitrise-io@2:
-        inputs:
-        - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
-
-  run_tests_app:
-    before_run:
-    - _pull_test_bundle_app
-    steps:
-    - xcode-test-without-building@0:
-        inputs:
-        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/Testy_iphonesimulator16.4-arm64-x86_64.xctestrun"
-        - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
-
-  run_tests_package:
-    before_run:
-      - _pull_test_bundle_package
-    steps:
-    - xcode-test-without-building@0:
-        inputs:
-          - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/MyLibraryTests_MyLibraryTests_iphonesimulator16.4.xctestrun"
-          - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
+            xcodegen generate
+            bundle exec fastlane tests test_language:sv test_region:SE
 
   upload_testflight:
     summary: Fakes an upload to TestFlight.
@@ -154,24 +83,10 @@ workflows:
           inputs:
           - content: |-
               #!/usr/bin/env bash
-              #
 
               echo "Upload to TestFlight"
 
-  _pull_test_bundle_app:
-    steps:
-    - pull-intermediate-files@1:
-        inputs:
-        - artifact_sources: build_for_testing.build_app_for_test
-
-  _pull_test_bundle_package:
-    steps:
-    - pull-intermediate-files@1:
-        inputs:
-        - artifact_sources: build_for_testing.build_package_for_test
 
 trigger_map:
   - push_branch: main
-    pipeline: build_and_test_project
-  - pull_request_source_branch: "*"
-    pipeline: build_and_test_project
+    pipeline: test
