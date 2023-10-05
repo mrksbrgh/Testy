@@ -49,6 +49,16 @@
                ReferencedContainer = "container:Testy.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "MyLibraryTests"
+               BuildableName = "MyLibraryTests"
+               BlueprintName = "MyLibraryTests"
+               ReferencedContainer = "container:./MyLibrary">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

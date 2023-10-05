@@ -20,6 +20,8 @@ final class ContentViewModelTests: XCTestCase {
 
   func testViewModel() {
     let viewModel = ContentViewModel()
-    viewModel.text = "Test"
+    viewModel.text = "Testing"
+
+    XCTAssertEqual(viewModel.text, "Testing")
   }
 }

@@ -2,7 +2,8 @@ name: Testy
 options:
   bundleIdPrefix: se.marber
   deploymentTarget:
-    iOS: "16.4"
+    iOS: "15.0"
+
 targets:
   Testy:
     type: application
@@ -17,12 +18,15 @@ targets:
     scheme:
       testTargets:
         - name: TestyTests
+        - package: MyLibrary/MyLibraryTests
 
   TestyTests:
     type: bundle.unit-test
     settings:
       GENERATE_INFOPLIST_FILE: YES
     platform: iOS
+    dependencies:
+      - target: Testy
     sources:
       - TestyTests/
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,20 +13,28 @@
 		7F35297A9F842FF9C5FDE747 /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */; };
 		B97D976D1B0F3E80D4703F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6169F14D9C6AA82800718A9 /* Assets.xcassets */; };
 		D380524B845A71D660BE1744 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD5397DEBE578E4AE72DB /* ContentView.swift */; };
-		D43609016CE6475D154714E6 /* ModalViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561B9EE519E00EF35BFF4C62 /* ModalViewModelTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		300E851D24716958D4A16464 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A02DF5278B5F3C517597859 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ACE0F83A0D7987D3F3FE45F2;
+			remoteInfo = Testy;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		01A9C6B90793C4447D676370 /* Testy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Testy.entitlements; sourceTree = "<group>"; };
 		04B6EA669EDCD39AE5E881EB /* TestyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestyApp.swift; sourceTree = "<group>"; };
 		181CD5397DEBE578E4AE72DB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		561B9EE519E00EF35BFF4C62 /* ModalViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewModelTests.swift; sourceTree = "<group>"; };
 		618A4A5441E7BF8B233599D0 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		82620F398AF1BA83298021F0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		A08E47E835AE31D6136A292E /* MyLibrary */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MyLibrary; sourceTree = SOURCE_ROOT; };
+		A08E47E835AE31D6136A292E /* MyLibrary */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MyLibrary; path = MyLibrary; sourceTree = SOURCE_ROOT; };
 		A6169F14D9C6AA82800718A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
-		E0F9B93F0106E086CD796CE9 /* Testy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0F9B93F0106E086CD796CE9 /* Testy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Testy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F86EDCBF80D44493F100FAE4 /* TestyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TestyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -68,6 +76,7 @@
 				04B6EA669EDCD39AE5E881EB /* TestyApp.swift */,
 				D131CF5D1D6A35C8F96C90FA /* Preview Content */,
 			);
+			name = Testy;
 			path = Testy;
 			sourceTree = "<group>";
 		};
@@ -75,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */,
-				561B9EE519E00EF35BFF4C62 /* ModalViewModelTests.swift */,
 			);
 			path = TestyTests;
 			sourceTree = "<group>";
@@ -100,6 +108,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A8D46B27801442BA01A90C78 /* PBXTargetDependency */,
 			);
 			name = TestyTests;
 			productName = TestyTests;
@@ -129,6 +138,8 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 016F12DF6F2CF1D09448FE84 /* Build configuration list for PBXProject "Testy" */;
 			compatibilityVersion = "Xcode 11.0";
@@ -179,11 +190,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F35297A9F842FF9C5FDE747 /* ContentViewModelTests.swift in Sources */,
-				D43609016CE6475D154714E6 /* ModalViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A8D46B27801442BA01A90C78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ACE0F83A0D7987D3F3FE45F2 /* Testy */;
+			targetProxy = 300E851D24716958D4A16464 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1848B91309A131930A103343 /* Release */ = {
@@ -199,6 +217,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.TestyTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Testy.app/Testy";
 			};
 			name = Release;
 		};
@@ -216,10 +235,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Testy;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -236,6 +252,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.TestyTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Testy.app/Testy";
 			};
 			name = Debug;
 		};
@@ -284,7 +301,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -346,7 +363,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -372,10 +389,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Testy;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
