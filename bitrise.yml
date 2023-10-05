@@ -26,6 +26,13 @@ stages:
     workflows:
     - run_tests_default_locale: {}
     - run_tests_swedish_locale: {}
+  run_tests_variables:
+    workflows:
+    - run_tests: {}
+    - run_tests:
+        envs:
+        - ENV_LANGUAGE: sv
+        - ENV_REGION: SE
   upload_testflight:
     workflows:
     - upload_testflight: {}
@@ -78,6 +85,30 @@ workflows:
 
             xcodegen generate
             bundle exec fastlane tests test_language:sv test_region:SE
+
+  # This workflow runs the tests using language and region from environment variable
+  run_tests:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6.1.1: {}
+    - install-bundler: {}
+    - script@1.1.6:
+        title: Validate SwiftLint plugin
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            mkdir -p ~/Library/org.swift.swiftpm/security
+            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
+    - script@1.1.6:
+        title: Generate project and run tests
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            xcodegen generate
+            bundle exec fastlane tests test_language:$ENV_LANGUAGE test_region:$ENV_REGION
 
   upload_testflight:
     summary: Fakes an upload to TestFlight.
