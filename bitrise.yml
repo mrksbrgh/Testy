@@ -154,6 +154,7 @@ workflows:
           inputs:
           - content: |-
               #!/usr/bin/env bash
+              #
 
               echo "Upload to TestFlight"
 
