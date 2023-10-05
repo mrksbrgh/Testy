@@ -30,11 +30,13 @@ pipelines:
 stages:
   # Stage using separate workflows
   run_tests:
+    title: Stage without variables
     workflows:
     - run_tests_default_locale: {}
     - run_tests_swedish_locale: {}
   # Stage using environment variables
   run_tests_variables:
+    title: Stage with variables
     workflows:
     - run_tests:
         title: Running tests with system language and region
@@ -69,7 +71,6 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
 
-            xcodegen generate
             bundle exec fastlane tests
 
   # This workflow runs the tests using Swedish language and region
@@ -92,8 +93,6 @@ workflows:
         inputs:
         - content: |-
             #!/usr/bin/env bash
-
-            xcodegen generate
             bundle exec fastlane tests test_language:sv test_region:SE
 
   # This workflow runs the tests using language and region from environment variable
@@ -117,7 +116,6 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
 
-            xcodegen generate
             bundle exec fastlane tests test_language:$ENV_LANGUAGE test_region:$ENV_REGION
 
   upload_testflight:
