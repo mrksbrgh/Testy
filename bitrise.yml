@@ -36,8 +36,10 @@ stages:
   # Stage using environment variables
   run_tests_variables:
     workflows:
-    - run_tests: {}
     - run_tests:
+        title: Running tests with system language and region
+    - run_tests:
+        title: Running tests with Swedish language and region
         envs:
         - ENV_LANGUAGE: sv
         - ENV_REGION: SE
