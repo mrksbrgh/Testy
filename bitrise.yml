@@ -16,16 +16,24 @@ app:
     - BITRISE_DISTRIBUTION_METHOD: development
 
 pipelines:
+  # Pipeline
   test:
     stages:
     - run_tests: {}
     - upload_testflight: {}
+  # Pipeline using environment variables
+  test_variables:
+    stages:
+    - run_tests_variables: {}
+    - upload_testflight: {}
 
 stages:
+  # Stage using separate workflows
   run_tests:
     workflows:
     - run_tests_default_locale: {}
     - run_tests_swedish_locale: {}
+  # Stage using environment variables
   run_tests_variables:
     workflows:
     - run_tests: {}
