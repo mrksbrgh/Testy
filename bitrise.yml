@@ -65,8 +65,8 @@ workflows:
     - deploy-to-bitrise-io@2:
         inputs:
         - pipeline_intermediate_files: |-
-          '$BITRISE_SOURCE_DIR/Gemfile:BITRISE_GEMFILE_DIR'
-          '$BITRISE_DEPLOY_DIR:BITRISE_DEPLOY_DIR'
+            '$BITRISE_SOURCE_DIR/Gemfile:BITRISE_GEMFILE_DIR'
+            '$BITRISE_DEPLOY_DIR:BITRISE_DEPLOY_DIR'
 
   # This workflow runs the tests using system language and region
   run_tests_default_locale:
