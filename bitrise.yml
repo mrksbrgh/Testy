@@ -76,14 +76,6 @@ workflows:
         - artifact_sources: 'build_tests.build_for_testing'
     - install-bundler: {}
     - script@1.1.6:
-        title: Validate SwiftLint plugin
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            mkdir -p ~/Library/org.swift.swiftpm/security
-            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
-    - script@1.1.6:
         title: Run tests with system language and region
         inputs:
         - content: |-
@@ -103,14 +95,6 @@ workflows:
         inputs:
         - artifact_sources: 'build_tests.build_for_testing'
     - install-bundler: {}
-    - script@1.1.6:
-        title: Validate SwiftLint plugin
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            mkdir -p ~/Library/org.swift.swiftpm/security
-            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
     - script@1.1.6:
         title: Run tests with Swedish language and region
         inputs:
