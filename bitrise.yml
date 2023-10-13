@@ -64,7 +64,9 @@ workflows:
             bundle exec fastlane build_for_testing
     - deploy-to-bitrise-io@2:
         inputs:
-        - pipeline_intermediate_files: '$BITRISE_DEPLOY_DIR:BITRISE_DEPLOY_DIR'
+        - pipeline_intermediate_files: |-
+          '$BITRISE_SOURCE_DIR/Gemfile:BITRISE_GEMFILE_DIR'
+          '$BITRISE_DEPLOY_DIR:BITRISE_DEPLOY_DIR'
 
   # This workflow runs the tests using system language and region
   run_tests_default_locale:
@@ -74,7 +76,9 @@ workflows:
     - pull-intermediate-files@1:
         inputs:
         - artifact_sources: 'build_tests.build_for_testing'
-    - install-bundler: {}
+    - install-bundler:
+        inputs:
+        - gemfile_path: '$BITRISE_GEMFILE_DIR'
     - script@1.1.6:
         title: Run tests with system language and region
         inputs:
