@@ -23,7 +23,8 @@ platform :ios do
       project: project,
       scheme: 'Testy',
       devices: ['iPhone 13'],
-      build_for_testing: true
+      build_for_testing: true,
+      derived_data_path: ENV['BITRISE_DEPLOY_DIR']
     )
   end
 

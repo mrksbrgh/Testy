@@ -62,9 +62,7 @@ workflows:
             #!/usr/bin/env bash
 
             bundle exec fastlane build_for_testing
-    - deploy-to-bitrise-io@2:
-        inputs:
-        - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
+    - deploy-to-bitrise-io@2: {}
 
   # This workflow runs the tests using system language and region
   run_tests_default_locale:
@@ -124,7 +122,6 @@ workflows:
               #!/usr/bin/env bash
 
               echo "Upload to TestFlight"
-
 
 trigger_map:
   - push_branch: main
