@@ -1,0 +1,18 @@
+{
+  "version" : 2,
+  "versionFingerprints" : {
+    "0.53.0" : {
+      "sourceControl" : {
+        "sourceCode" : {
+          "contentType" : {
+            "sourceCode" : {
+
+            }
+          },
+          "fingerprint" : "6d2e58271ebc14c37bf76d7c9f4082cc15bad718",
+          "origin" : "https://github.com/realm/SwiftLint.git"
+        }
+      }
+    }
+  }
+}

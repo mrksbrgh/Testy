@@ -18,6 +18,15 @@ default_platform(:ios)
 project = "Testy.xcodeproj"
 
 platform :ios do
+  lane :build_for_testing do
+    scan(
+      project: project,
+      scheme: 'Testy',
+      devices: ['iPhone 13'],
+      build_for_testing: true
+    )
+  end
+
   lane :tests do |options|
     test_language = options[:test_language]
     test_region = options[:test_region]
@@ -41,7 +50,8 @@ platform :ios do
       skip_build: true,
       result_bundle: false,
       should_zip_build_products: false,
-      suppress_xcode_output: false
+      suppress_xcode_output: false,
+      test_without_building: true
     )
   end
 end

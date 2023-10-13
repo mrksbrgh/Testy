@@ -24,17 +24,23 @@ pipelines:
   # Pipeline using environment variables
   test_variables:
     stages:
+    - build_tests: {}
     - run_tests_variables: {}
     - upload_testflight: {}
 
 stages:
-  # Stage using separate workflows
+  # Build stage only for testing
+  build_tests:
+    title: Build for testing
+    workflows:
+    - build_for_testing: {}
+  # Test stage using separate workflows
   run_tests:
     title: Stage without variables
     workflows:
     - run_tests_default_locale: {}
     - run_tests_swedish_locale: {}
-  # Stage using environment variables
+  # Test stage using environment variables
   run_tests_variables:
     title: Stage with variables
     workflows:
@@ -50,6 +56,28 @@ stages:
     - upload_testflight: {}
 
 workflows:
+  # This workflow compiles the project for testing
+  build_for_testing:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6.1.1: {}
+    - install-bundler: {}
+    - script@1.1.6:
+        title: Validate SwiftLint plugin
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            mkdir -p ~/Library/org.swift.swiftpm/security
+            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
+    - script@1.1.6:
+        title: Run tests with system language and region
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            bundle exec fastlane build_for_testing
   # This workflow runs the tests using system language and region
   run_tests_default_locale:
     steps:

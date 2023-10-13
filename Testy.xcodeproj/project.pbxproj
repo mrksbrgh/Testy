@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,7 +31,7 @@
 		181CD5397DEBE578E4AE72DB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		618A4A5441E7BF8B233599D0 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		82620F398AF1BA83298021F0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		A08E47E835AE31D6136A292E /* MyLibrary */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MyLibrary; path = MyLibrary; sourceTree = SOURCE_ROOT; };
+		A08E47E835AE31D6136A292E /* MyLibrary */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MyLibrary; sourceTree = SOURCE_ROOT; };
 		A6169F14D9C6AA82800718A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
 		E0F9B93F0106E086CD796CE9 /* Testy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Testy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,7 +76,6 @@
 				04B6EA669EDCD39AE5E881EB /* TestyApp.swift */,
 				D131CF5D1D6A35C8F96C90FA /* Preview Content */,
 			);
-			name = Testy;
 			path = Testy;
 			sourceTree = "<group>";
 		};
@@ -138,8 +137,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1200;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 016F12DF6F2CF1D09448FE84 /* Build configuration list for PBXProject "Testy" */;
 			compatibilityVersion = "Xcode 11.0";
@@ -431,7 +428,7 @@
 			repositoryURL = "https://github.com/realm/SwiftLint.git";
 			requirement = {
 				kind = exactVersion;
-				version = 0.52.4;
+				version = 0.53.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
