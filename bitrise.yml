@@ -98,7 +98,9 @@ workflows:
     - pull-intermediate-files@1:
         inputs:
         - artifact_sources: 'build_tests.build_for_testing'
-    - install-bundler: {}
+    - install-bundler:
+        inputs:
+        - gemfile_path: '$BITRISE_GEMFILE_DIR'
     - script@1.1.6:
         title: Run tests with Swedish language and region
         inputs:
