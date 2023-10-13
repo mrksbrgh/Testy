@@ -24,7 +24,7 @@ platform :ios do
       scheme: 'Testy',
       devices: ['iPhone 13'],
       build_for_testing: true,
-      derived_data_path: ENV['BITRISE_DEPLOY_DIR']
+      derived_data_path: ENV['BITRISE_TEST_BUNDLE_PATH']
     )
   end
 
