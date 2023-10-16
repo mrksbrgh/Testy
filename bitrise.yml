@@ -65,6 +65,7 @@ workflows:
     - deploy-to-bitrise-io@2:
         inputs:
         - pipeline_intermediate_files: |-
+            $BITRISE_SOURCE_DIR/Gemfile:BITRISE_GEMFILE_PATH
             $BITRISE_SOURCE_DIR/Gemfile.lock:BITRISE_GEMFILE_LOCK_PATH
             $BITRISE_DEPLOY_DIR:BITRISE_DEPLOY_DIR
 
@@ -78,7 +79,8 @@ workflows:
         - artifact_sources: 'build_tests.build_for_testing'
     - install-bundler:
         inputs:
-        - gemfile_path: '$BITRISE_GEMFILE_LOCK_PATH'
+        - gemfile_path: '$BITRISE_GEMFILE_PATH'
+        - gemfile_lock_dir: '$BITRISE_DEPLOY_DIR'
     - script@1.1.6:
         title: Run tests with system language and region
         inputs:
