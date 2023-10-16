@@ -18,8 +18,8 @@ jobs:
         BITRISE_APP_SLUG: ${{ secrets.BITRISE_APP_SLUG }}
         BITRISE_TRIGGER_TOKEN: ${{ secrets.BITRISE_TRIGGER_TOKEN }}
       run: |
-        curl -H 'Authorization: $BITRISE_ACCESS_TOKEN' -L \
-             $BITRISE_API_URL/apps/$BITRISE_APP_SLUG/build/start.json \
+        curl -H 'Authorization: $BITRISE_ACCESS_TOKEN' \
+             -X POST $BITRISE_API_URL/apps/$BITRISE_APP_SLUG/builds \
              --data '{
               "build_params": {
                 "branch": "main",
