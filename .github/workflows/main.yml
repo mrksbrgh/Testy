@@ -13,12 +13,13 @@ jobs:
     - uses: actions/checkout@v2
     - name: Trigger a build in Bitrise and upload to TestFlight
       env:
+        BITRISE_API_URL: https://api.bitrise.io/v0.1/
         BITRISE_ACCESS_TOKEN: ${{ secrets.BITRISE_ACCESS_TOKEN }}
         BITRISE_APP_SLUG: ${{ secrets.BITRISE_APP_SLUG }}
         BITRISE_TRIGGER_TOKEN: ${{ secrets.BITRISE_TRIGGER_TOKEN }}
       run: |
         curl -H 'Authorization: $BITRISE_ACCESS_TOKEN' \
-             https://app.bitrise.io/app/$BITRISE_APP_SLUG/build/start.json -L \
+             $BITRISE_API_URL/apps/$BITRISE_APP_SLUG/build/start.json -L \
              --data '{
               "build_params": {
                 "branch": "main",
