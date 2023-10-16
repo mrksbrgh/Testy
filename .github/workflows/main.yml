@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
     - name: Trigger a build in Bitrise and upload to TestFlight
       env:
         BITRISE_API_URL: https://api.bitrise.io/v0.1
