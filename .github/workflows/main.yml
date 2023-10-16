@@ -18,15 +18,15 @@ jobs:
         BITRISE_APP_SLUG: ${{ secrets.BITRISE_APP_SLUG }}
         BITRISE_TRIGGER_TOKEN: ${{ secrets.BITRISE_TRIGGER_TOKEN }}
       run: |
-        curl -H 'Authorization: $BITRISE_ACCESS_TOKEN' \
-             -X POST $BITRISE_API_URL/apps/$BITRISE_APP_SLUG/builds \
+        curl -H 'Authorization: VtU7vXzZbfP4OFgrcRY9f8--REGre6bBXvlEd3Cvq0P_PR8D9QZcBSbbo5Q20DPQeIT5dMD-WMhBdQSAWGylsA' \
+             -X POST https://api.bitrise.io/v0.1/apps/120e1367-17c7-4a19-af8d-9e895c1c41dc/builds \
              --data '{
               "build_params": {
                 "branch": "main",
                 "workflow_id": "upload_testflight"
               },
               "hook_info": {
-                "build_trigger_token": "$BITRISE_TRIGGER_TOKEN",
+                "build_trigger_token": "BWMvns0zC21BlXsE7z9pog",
                 "type": "bitrise"
               }
              }'
