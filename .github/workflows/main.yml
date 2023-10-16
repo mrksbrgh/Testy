@@ -11,5 +11,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: echo Hello, world!
+    - name: Trigger a build in Bitrise and upload to TestFlight
+      env:
+        BITRISE_APP_SLUG: ${{ secrets.BITRISE_APP_SLUG }}
+        BITRISE_TRIGGER_TOKEN: ${{ secrets.BITRISE_TRIGGER_TOKEN }}
+      run: |
+        curl https://app.bitrise.io/app/$BITRISE_APP_SLUG/build/start.json -L \
+             --data '{
+              "build_params": {
+                "branch": "main",
+                "workflow_id": "upload_testflight"
+              },
+              "hook_info": {
+                "build_trigger_token": "$BITRISE_TRIGGER_TOKEN",
+                "type": "bitrise"
+              }
+             }'
