@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+  build:
+    if: ${{ github.event.label.name == 'testflight' }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger a build in Bitrise and upload to TestFlight
+      env:
+        BITRISE_API_URL: https://api.bitrise.io/v0.1
+      run: |
+        curl -H 'Authorization: ${{ secrets.BITRISE_ACCESS_TOKEN }}' \
+             -X POST $BITRISE_API_URL/apps/${{ secrets.BITRISE_APP_SLUG }}/builds \
+             --data '{
+              "build_params": {
+                "branch": "main",
+                "workflow_id": "upload_testflight"
+              },
+              "hook_info": {
+                "build_trigger_token": "${{ secrets.BITRISE_TRIGGER_TOKEN }}",
+                "type": "bitrise"
+              }
+             }'
