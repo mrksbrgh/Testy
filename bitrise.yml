@@ -32,6 +32,7 @@ stages:
   # Test stage using environment variables
   run_tests:
     title: Stage with variables
+    abort_on_fail: true
     workflows:
     - run_tests_default_locale: {}
     - run_tests_swedish_locale: {}
