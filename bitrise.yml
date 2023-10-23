@@ -81,7 +81,7 @@ workflows:
     - install-bundler:
         inputs:
         - gemfile_path: '$BITRISE_GEMFILE_PATH'
-        - gemfile_lock_dir: '$BITRISE_GEMFILE_LOCK_PATH'
+        - gemfilelock_dir: '$BITRISE_GEMFILE_LOCK_PATH'
     - script@1.1.6:
         title: Run tests with system language and region
         inputs:
@@ -103,7 +103,8 @@ workflows:
         - artifact_sources: 'build_tests.build_for_testing'
     - install-bundler:
         inputs:
-        - gemfile_path: '$BITRISE_GEMFILE_LOCK_PATH'
+        - gemfile_path: '$BITRISE_GEMFILE_PATH'
+        - gemfilelock_dir: '$BITRISE_GEMFILE_LOCK_PATH'
     - script@1.1.6:
         title: Run tests with Swedish language and region
         inputs:
