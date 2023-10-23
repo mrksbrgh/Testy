@@ -80,7 +80,7 @@ workflows:
     - install-bundler:
         inputs:
         - gemfile_path: '$BITRISE_GEMFILE_PATH'
-        - gemfile_lock_dir: '$BITRISE_DEPLOY_DIR'
+        - gemfile_lock_dir: '$BITRISE_GEMFILE_LOCK_PATH'
     - script@1.1.6:
         title: Run tests with system language and region
         inputs:
