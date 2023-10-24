@@ -38,6 +38,8 @@ platform :ios do
     end
 
     scan(
+      project: project,
+      scheme: 'Testy',
       reset_simulator: true,
       devices: ['iPhone 13'],
       disable_concurrent_testing: true,
@@ -78,9 +80,7 @@ platform :ios do
       skip_build: true,
       result_bundle: false,
       should_zip_build_products: false,
-      suppress_xcode_output: false,
-      test_without_building: true,
-      derived_data_path: ENV['BITRISE_DEPLOY_DIR']
+      suppress_xcode_output: false
     )
   end
 end
