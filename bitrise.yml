@@ -79,6 +79,10 @@ workflows:
     - pull-intermediate-files@1:
         inputs:
         - artifact_sources: 'build_tests.build_for_testing'
+    - change-workdir@1.0.3:
+        inputs:
+        - path: '$BITRISE_DEPLOY_DIR/..'
+        - is_create_path: false
     - install-bundler:
         inputs:
         - gemfile_path: '$BITRISE_GEMFILE_LOCK_PATH'
@@ -101,6 +105,10 @@ workflows:
     - pull-intermediate-files@1:
         inputs:
         - artifact_sources: 'build_tests.build_for_testing'
+    - change-workdir@1.0.3:
+        inputs:
+        - path: '$BITRISE_DEPLOY_DIR/..'
+        - is_create_path: false
     - install-bundler:
         inputs:
         - gemfile_path: '$BITRISE_GEMFILE_LOCK_PATH'
@@ -109,6 +117,7 @@ workflows:
         inputs:
         - content: |-
             #!/usr/bin/env bash
+
             bundle exec fastlane tests test_language:$ENV_LANGUAGE test_region:$ENV_REGION
 
   upload_testflight:
