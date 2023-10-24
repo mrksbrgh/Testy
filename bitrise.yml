@@ -70,7 +70,6 @@ workflows:
             $BITRISE_SOURCE_DIR/Gemfile.lock:BITRISE_GEMFILE_LOCK_PATH
             $BITRISE_SOURCE_DIR/fastlane:BITRISE_FASTLANE_PATH
             $BITRISE_DEPLOY_DIR:BITRISE_DEPLOY_DIR
-
   # This workflow runs the tests using system language and region
   run_tests_default_locale:
     steps:
@@ -92,8 +91,7 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
 
-            bundle exec fastlane tests
-
+            bundle exec fastlane tests_without_building
   # This workflow runs the tests using Swedish language and region
   run_tests_swedish_locale:
     envs:
@@ -118,8 +116,8 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
 
-            bundle exec fastlane tests test_language:$ENV_LANGUAGE test_region:$ENV_REGION
-
+            bundle exec fastlane tests_without_building test_language:$ENV_LANGUAGE test_region:$ENV_REGION
+  # This workflow simulates an upload of binary to TestFlight.
   upload_testflight:
     summary: Fakes an upload to TestFlight.
     description: This workflow will just echo some text by running a script.

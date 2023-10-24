@@ -28,6 +28,33 @@ platform :ios do
     )
   end
 
+  lane :tests_without_building do |options|
+    test_language = options[:test_language]
+    test_region = options[:test_region]
+
+    xcargs = nil
+    if !test_language.to_s.empty? && !test_region.to_s.empty?
+      xcargs = "-testLanguage #{test_language} -testRegion #{test_region}"
+    end
+
+    scan(
+      reset_simulator: true,
+      devices: ['iPhone 13'],
+      disable_concurrent_testing: true,
+      code_coverage: false,
+      output_types: 'junit',
+      output_directory: ENV['BITRISE_DEPLOY_DIR'],
+      output_files: 'report.xml',
+      xcargs: xcargs,
+      skip_build: true,
+      result_bundle: false,
+      should_zip_build_products: false,
+      suppress_xcode_output: false,
+      test_without_building: true,
+      derived_data_path: ENV['BITRISE_DEPLOY_DIR']
+    )
+  end
+
   lane :tests do |options|
     test_language = options[:test_language]
     test_region = options[:test_region]
