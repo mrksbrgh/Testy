@@ -8,7 +8,7 @@
 import OHHTTPStubs
 import OHHTTPStubsSwift
 import XCTest
-@testable import Testy
+@testable import MyLibrary
 
 final class ApplicationIdentifierTests: XCTestCase {
   private var applicationIdentifier: ApplicationIdentifier!

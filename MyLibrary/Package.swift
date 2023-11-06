@@ -17,6 +17,7 @@ let package = Package(
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0")
     .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMajor(from: "0.53.0")),
+    .package(url: "https://github.com/AliSoftware/OHHTTPStubs", exact: "9.1.0"),
   ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -30,7 +31,11 @@ let package = Package(
     ),
     .testTarget(
       name: "MyLibraryTests",
-      dependencies: ["MyLibrary"],
+      dependencies: [
+        "MyLibrary",
+        .product(name: "OHHTTPStubs", package: "OHHttpStubs"),
+        .product(name: "OHHTTPStubsSwift", package: "OHHttpStubs"),
+      ],
       plugins: [
         .plugin(name: "SwiftLintPlugin", package: "SwiftLint")
       ]
