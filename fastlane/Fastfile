@@ -80,7 +80,8 @@ platform :ios do
       skip_build: true,
       result_bundle: false,
       should_zip_build_products: false,
-      suppress_xcode_output: false
+      suppress_xcode_output: false,
+      output_style: 'raw'
     )
   end
 end

@@ -26,6 +26,8 @@ final class ApplicationIdentifierTests: XCTestCase {
     let userAgentPattern = #"^Testy-iOS\/[0-9]+\.[0-9]+\.[0-9]+-debug \((iPhone|iPad); (iOS|iPadOS) [0-9.]+\)$"#
 #endif
 
+    print("APPLICATION_IDENTIFIER_USER_AGENT", applicationIdentifier.userAgent)
+
     XCTAssertNotNil(
       applicationIdentifier.userAgent.range(
         of: userAgentPattern,

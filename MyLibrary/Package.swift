@@ -16,7 +16,6 @@ let package = Package(
   dependencies: [
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0")
-    .package(url: "https://github.com/realm/SwiftLint.git", .upToNextMajor(from: "0.53.0")),
     .package(url: "https://github.com/AliSoftware/OHHTTPStubs", exact: "9.1.0"),
   ],
   targets: [
@@ -24,10 +23,7 @@ let package = Package(
     // Targets can depend on other targets in this package, and on products in packages this package depends on.
     .target(
       name: "MyLibrary",
-      dependencies: [],
-      plugins: [
-        .plugin(name: "SwiftLintPlugin", package: "SwiftLint")
-      ]
+      dependencies: []
     ),
     .testTarget(
       name: "MyLibraryTests",
@@ -35,9 +31,6 @@ let package = Package(
         "MyLibrary",
         .product(name: "OHHTTPStubs", package: "OHHttpStubs"),
         .product(name: "OHHTTPStubsSwift", package: "OHHttpStubs"),
-      ],
-      plugins: [
-        .plugin(name: "SwiftLintPlugin", package: "SwiftLint")
       ]
     ),
   ]
