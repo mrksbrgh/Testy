@@ -22,7 +22,7 @@ platform :ios do
     scan(
       project: project,
       scheme: 'Testy',
-      devices: ['iPhone 13'],
+      devices: ['iPhone 14'],
       build_for_testing: true,
       derived_data_path: ENV['BITRISE_DEPLOY_DIR']
     )
@@ -41,7 +41,7 @@ platform :ios do
       project: project,
       scheme: 'Testy',
       reset_simulator: true,
-      devices: ['iPhone 13'],
+      devices: ['iPhone 14'],
       disable_concurrent_testing: true,
       code_coverage: false,
       output_types: 'junit',
@@ -70,7 +70,7 @@ platform :ios do
       project: project,
       scheme: 'Testy',
       reset_simulator: true,
-      devices: ['iPhone 13'],
+      devices: ['iPhone 14'],
       disable_concurrent_testing: true,
       code_coverage: false,
       output_types: 'junit',
