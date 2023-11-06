@@ -118,6 +118,28 @@ workflows:
             #!/usr/bin/env bash
 
             bundle exec fastlane tests_without_building test_language:$ENV_LANGUAGE test_region:$ENV_REGION
+  # This workflow builds and runs the tests using system language and region
+  run_tests:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - pull-intermediate-files@1:
+        inputs:
+        - artifact_sources: 'build_tests.build_for_testing'
+    - change-workdir@1.0.3:
+        inputs:
+        - path: '$BITRISE_DEPLOY_DIR/..'
+        - is_create_path: false
+    - install-bundler:
+        inputs:
+        - gemfile_path: '$BITRISE_GEMFILE_LOCK_PATH'
+    - script@1.1.6:
+        title: Build and run tests with system language and region
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            bundle exec fastlane tests          
   # This workflow simulates an upload of binary to TestFlight.
   upload_testflight:
     summary: Fakes an upload to TestFlight.
