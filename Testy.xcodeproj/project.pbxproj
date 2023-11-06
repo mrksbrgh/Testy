@@ -11,6 +11,7 @@
 		0E25313C1D39309E9A420228 /* TestyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B6EA669EDCD39AE5E881EB /* TestyApp.swift */; };
 		200DBC08479D34B2CE3F85F1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82620F398AF1BA83298021F0 /* Preview Assets.xcassets */; };
 		7F35297A9F842FF9C5FDE747 /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */; };
+		855B83BB2AF96814000EE65B /* MyLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 855B83BA2AF96814000EE65B /* MyLibrary */; };
 		859E287B2AF95D75006052CF /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = 85C18FB52AF95C9C00E14299 /* OHHTTPStubs */; };
 		B97D976D1B0F3E80D4703F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6169F14D9C6AA82800718A9 /* Assets.xcassets */; };
 		D380524B845A71D660BE1744 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD5397DEBE578E4AE72DB /* ContentView.swift */; };
@@ -40,6 +41,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		855B83B92AF96800000EE65B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				855B83BB2AF96814000EE65B /* MyLibrary in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		859B56BB2AF95D45009B7450 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -144,6 +153,7 @@
 			buildPhases = (
 				945CD08A020DE6127FD627E4 /* Sources */,
 				17ACD0D7EFC846905357BF26 /* Resources */,
+				855B83B92AF96800000EE65B /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -152,6 +162,9 @@
 				85C18FAF2AF95BF100E14299 /* PBXTargetDependency */,
 			);
 			name = Testy;
+			packageProductDependencies = (
+				855B83BA2AF96814000EE65B /* MyLibrary */,
+			);
 			productName = Testy;
 			productReference = E0F9B93F0106E086CD796CE9 /* Testy.app */;
 			productType = "com.apple.product-type.application";
@@ -485,6 +498,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		855B83BA2AF96814000EE65B /* MyLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MyLibrary;
+		};
 		85C18FAC2AF95BF100E14299 /* OHHTTPStubs */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 85C18FAB2AF95BC400E14299 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */;
