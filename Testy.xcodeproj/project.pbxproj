@@ -16,6 +16,9 @@
 		859FAF0C2AFBB72B00A58EFC /* ContentViewTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859FAF0B2AFBB72B00A58EFC /* ContentViewTracking.swift */; };
 		859FAF0E2AFBB74800A58EFC /* ContentViewTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859FAF0D2AFBB74800A58EFC /* ContentViewTracker.swift */; };
 		859FAF102AFBB8C100A58EFC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859FAF0F2AFBB8C100A58EFC /* Launch Screen.storyboard */; };
+		859FAF132AFBBBD800A58EFC /* ContentViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859FAF122AFBBBD800A58EFC /* ContentViewTests.swift */; };
+		859FAF162AFBBC0300A58EFC /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = 859FAF152AFBBC0300A58EFC /* ViewInspector */; };
+		859FAF182AFBBCC300A58EFC /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = 859FAF172AFBBCC300A58EFC /* ViewInspector */; };
 		B97D976D1B0F3E80D4703F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6169F14D9C6AA82800718A9 /* Assets.xcassets */; };
 		D380524B845A71D660BE1744 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD5397DEBE578E4AE72DB /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -39,6 +42,7 @@
 		859FAF0B2AFBB72B00A58EFC /* ContentViewTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTracking.swift; sourceTree = "<group>"; };
 		859FAF0D2AFBB74800A58EFC /* ContentViewTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTracker.swift; sourceTree = "<group>"; };
 		859FAF0F2AFBB8C100A58EFC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		859FAF122AFBBBD800A58EFC /* ContentViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTests.swift; sourceTree = "<group>"; };
 		A08E47E835AE31D6136A292E /* MyLibrary */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MyLibrary; sourceTree = SOURCE_ROOT; };
 		A6169F14D9C6AA82800718A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
@@ -52,6 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				855B83BB2AF96814000EE65B /* MyLibrary in Frameworks */,
+				859FAF162AFBBC0300A58EFC /* ViewInspector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +65,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				859E287B2AF95D75006052CF /* OHHTTPStubs in Frameworks */,
+				859FAF182AFBBCC300A58EFC /* ViewInspector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */,
+				859FAF122AFBBBD800A58EFC /* ContentViewTests.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -175,6 +182,7 @@
 			name = TestyTests;
 			packageProductDependencies = (
 				85C18FB52AF95C9C00E14299 /* OHHTTPStubs */,
+				859FAF172AFBBCC300A58EFC /* ViewInspector */,
 			);
 			productName = TestyTests;
 			productReference = F86EDCBF80D44493F100FAE4 /* TestyTests.xctest */;
@@ -197,6 +205,7 @@
 			name = Testy;
 			packageProductDependencies = (
 				855B83BA2AF96814000EE65B /* MyLibrary */,
+				859FAF152AFBBC0300A58EFC /* ViewInspector */,
 			);
 			productName = Testy;
 			productReference = E0F9B93F0106E086CD796CE9 /* Testy.app */;
@@ -221,6 +230,7 @@
 			mainGroup = 20A083D16E3A1833BAA0BD55;
 			packageReferences = (
 				85C18FB42AF95C9C00E14299 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */,
+				859FAF142AFBBC0300A58EFC /* XCRemoteSwiftPackageReference "ViewInspector" */,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -261,6 +271,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				859FAF132AFBBBD800A58EFC /* ContentViewTests.swift in Sources */,
 				7F35297A9F842FF9C5FDE747 /* ContentViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,6 +537,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		859FAF142AFBBC0300A58EFC /* XCRemoteSwiftPackageReference "ViewInspector" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nalexn/ViewInspector";
+			requirement = {
+				kind = exactVersion;
+				version = 0.9.8;
+			};
+		};
 		85C18FAB2AF95BC400E14299 /* XCRemoteSwiftPackageReference "OHHTTPStubs" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AliSoftware/OHHTTPStubs";
@@ -548,6 +567,16 @@
 		855B83BA2AF96814000EE65B /* MyLibrary */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MyLibrary;
+		};
+		859FAF152AFBBC0300A58EFC /* ViewInspector */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 859FAF142AFBBC0300A58EFC /* XCRemoteSwiftPackageReference "ViewInspector" */;
+			productName = ViewInspector;
+		};
+		859FAF172AFBBCC300A58EFC /* ViewInspector */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 859FAF142AFBBC0300A58EFC /* XCRemoteSwiftPackageReference "ViewInspector" */;
+			productName = ViewInspector;
 		};
 		85C18FAC2AF95BF100E14299 /* OHHTTPStubs */ = {
 			isa = XCSwiftPackageProductDependency;

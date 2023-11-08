@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-  @StateObject private var viewModel = ContentViewModel(
-    tracker: ContentViewTracker()
-  )
+  @ObservedObject var viewModel: ContentViewModel
 
   var body: some View {
     VStack(spacing: 8) {
@@ -42,6 +40,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    ContentView()
+    ContentView(
+      viewModel: ContentViewModel(
+        tracker: ContentViewTracker()
+      )
+    )
   }
 }

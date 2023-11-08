@@ -30,6 +30,8 @@ final class ContentViewModelTests: XCTestCase {
   }
 }
 
+// MARK: - Mock
+
 private final class ContentViewTrackerMock: ContentViewTracking {
   func trackScreen() {
     // Mock tracking
