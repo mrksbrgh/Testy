@@ -10,8 +10,12 @@ import XCTest
 
 final class ContentViewModelTests: XCTestCase {
 
+  private var tracker: ContentViewTracking!
+
   override func setUpWithError() throws {
     // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    tracker = ContentViewTrackerMock()
   }
 
   override func tearDownWithError() throws {
@@ -19,9 +23,19 @@ final class ContentViewModelTests: XCTestCase {
   }
 
   func testViewModel() {
-    let viewModel = ContentViewModel()
+    let viewModel = ContentViewModel(tracker: tracker)
     viewModel.text = "Testing"
 
     XCTAssertEqual(viewModel.text, "Testing")
+  }
+}
+
+private final class ContentViewTrackerMock: ContentViewTracking {
+  func trackScreen() {
+    // Mock tracking
+  }
+
+  func trackDidTapAction() {
+    // Mock tracking
   }
 }

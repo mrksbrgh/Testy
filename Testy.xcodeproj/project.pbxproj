@@ -133,10 +133,18 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		A9218112ABD3866CE838F368 /* TestyTests */ = {
+		859FAF112AFBB91200A58EFC /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A9218112ABD3866CE838F368 /* TestyTests */ = {
+			isa = PBXGroup;
+			children = (
+				859FAF112AFBB91200A58EFC /* Views */,
 			);
 			path = TestyTests;
 			sourceTree = "<group>";
