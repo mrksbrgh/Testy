@@ -13,6 +13,9 @@
 		7F35297A9F842FF9C5FDE747 /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */; };
 		855B83BB2AF96814000EE65B /* MyLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = 855B83BA2AF96814000EE65B /* MyLibrary */; };
 		859E287B2AF95D75006052CF /* OHHTTPStubs in Frameworks */ = {isa = PBXBuildFile; productRef = 85C18FB52AF95C9C00E14299 /* OHHTTPStubs */; };
+		859FAF0C2AFBB72B00A58EFC /* ContentViewTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859FAF0B2AFBB72B00A58EFC /* ContentViewTracking.swift */; };
+		859FAF0E2AFBB74800A58EFC /* ContentViewTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859FAF0D2AFBB74800A58EFC /* ContentViewTracker.swift */; };
+		859FAF102AFBB8C100A58EFC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859FAF0F2AFBB8C100A58EFC /* Launch Screen.storyboard */; };
 		B97D976D1B0F3E80D4703F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6169F14D9C6AA82800718A9 /* Assets.xcassets */; };
 		D380524B845A71D660BE1744 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CD5397DEBE578E4AE72DB /* ContentView.swift */; };
 /* End PBXBuildFile section */
@@ -33,6 +36,9 @@
 		181CD5397DEBE578E4AE72DB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		618A4A5441E7BF8B233599D0 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		82620F398AF1BA83298021F0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		859FAF0B2AFBB72B00A58EFC /* ContentViewTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTracking.swift; sourceTree = "<group>"; };
+		859FAF0D2AFBB74800A58EFC /* ContentViewTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTracker.swift; sourceTree = "<group>"; };
+		859FAF0F2AFBB8C100A58EFC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		A08E47E835AE31D6136A292E /* MyLibrary */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MyLibrary; sourceTree = SOURCE_ROOT; };
 		A6169F14D9C6AA82800718A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB76E304D673B067EF11B89F /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
@@ -91,12 +97,13 @@
 		4FEC274A1CD8FF89CE4BAA60 /* Testy */ = {
 			isa = PBXGroup;
 			children = (
+				859FAF0A2AFBB71C00A58EFC /* Views */,
+				859FAF092AFBB71800A58EFC /* Tracking */,
 				A6169F14D9C6AA82800718A9 /* Assets.xcassets */,
-				181CD5397DEBE578E4AE72DB /* ContentView.swift */,
-				618A4A5441E7BF8B233599D0 /* ContentViewModel.swift */,
 				01A9C6B90793C4447D676370 /* Testy.entitlements */,
 				04B6EA669EDCD39AE5E881EB /* TestyApp.swift */,
 				D131CF5D1D6A35C8F96C90FA /* Preview Content */,
+				859FAF0F2AFBB8C100A58EFC /* Launch Screen.storyboard */,
 			);
 			path = Testy;
 			sourceTree = "<group>";
@@ -106,6 +113,24 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		859FAF092AFBB71800A58EFC /* Tracking */ = {
+			isa = PBXGroup;
+			children = (
+				859FAF0B2AFBB72B00A58EFC /* ContentViewTracking.swift */,
+				859FAF0D2AFBB74800A58EFC /* ContentViewTracker.swift */,
+			);
+			path = Tracking;
+			sourceTree = "<group>";
+		};
+		859FAF0A2AFBB71C00A58EFC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				181CD5397DEBE578E4AE72DB /* ContentView.swift */,
+				618A4A5441E7BF8B233599D0 /* ContentViewModel.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		A9218112ABD3866CE838F368 /* TestyTests */ = {
@@ -203,6 +228,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				859FAF102AFBB8C100A58EFC /* Launch Screen.storyboard in Resources */,
 				B97D976D1B0F3E80D4703F7B /* Assets.xcassets in Resources */,
 				200DBC08479D34B2CE3F85F1 /* Preview Assets.xcassets in Resources */,
 			);
@@ -215,7 +241,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				859FAF0E2AFBB74800A58EFC /* ContentViewTracker.swift in Sources */,
 				D380524B845A71D660BE1744 /* ContentView.swift in Sources */,
+				859FAF0C2AFBB72B00A58EFC /* ContentViewTracking.swift in Sources */,
 				0A77AD7EA052F8F9CC3FD55A /* ContentViewModel.swift in Sources */,
 				0E25313C1D39309E9A420228 /* TestyApp.swift in Sources */,
 			);
@@ -276,6 +304,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -284,7 +314,10 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Testy;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -435,6 +468,8 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -443,7 +478,10 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Testy;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
