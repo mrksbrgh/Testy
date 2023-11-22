@@ -11,6 +11,8 @@ struct ContentView: View {
   @Environment(\.horizontalSizeClass) var sizeClass
   @ObservedObject var viewModel: ContentViewModel
 
+  internal let inspection = Inspection<Self>()
+
   var body: some View {
     NavigationView {
       VStack(spacing: 8) {
@@ -32,6 +34,9 @@ struct ContentView: View {
       .onAppear {
         viewModel.didAppear()
       }
+    }
+    .onReceive(inspection.notice) {
+      self.inspection.visit(self, $0)
     }
   }
 }

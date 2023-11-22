@@ -30,7 +30,13 @@ final class ContentViewTests: XCTestCase {
       )
     )
 
-    XCTAssertNotNil(try view.inspect().find(text: "Testy"))
+    let expectation = view.inspection.inspect { view in
+      XCTAssertNotNil(try view.find(text: "Testy"))
+    }
+
+    ViewHosting.host(view: view)
+
+    wait(for: [expectation], timeout: 1.0)
   }
 
   func testContentViewTracking() throws {
@@ -67,3 +73,5 @@ private final class ContentViewTrackerMock: ContentViewTracking {
     invocations.append("trackDidTapActionContentView")
   }
 }
+
+extension Inspection: InspectionEmissary {}
