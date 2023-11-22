@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+  @Environment(\.horizontalSizeClass) var sizeClass
   @ObservedObject var viewModel: ContentViewModel
 
   var body: some View {
@@ -27,6 +28,7 @@ struct ContentView: View {
           Text("Action button")
         })
       }
+      .padding(sizeClass == .compact ? 16.0 : 32.0)
       .onAppear {
         viewModel.didAppear()
       }
