@@ -22,6 +22,12 @@ pipelines:
     - build_tests: {}
     - run_tests: {}
     - upload_testflight: {}
+  release:
+    stages:
+    - build_tests: {}
+    - run_tests: {}
+    - upload_testflight: {}
+    - release: {}
 
 stages:
   # Build stage only for testing
