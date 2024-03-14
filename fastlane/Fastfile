@@ -91,8 +91,8 @@ platform :ios do
 
     set_github_release(
       repository_name: 'mrksbrgh/Testy',
-      name: "New release",
-      api_token: api_token,
+      name: "v1.0.1",
+      api_token: ENV['GITHUB_API_TOKEN'],
       tag_name: "release/v1.0.1",
       description: (File.read(changelog) rescue "No changelog provided!")
     )
