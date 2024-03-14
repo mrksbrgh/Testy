@@ -24,9 +24,6 @@ pipelines:
     - upload_testflight: {}
   release:
     stages:
-    - build_tests: {}
-    - run_tests: {}
-    - upload_testflight: {}
     - release: {}
 
 stages:
@@ -47,12 +44,24 @@ stages:
     - upload_testflight: {}
   release:
     workflows:
-    - run_tests_default_locale: {}
-    - run_tests_swedish_locale: {}
-    - upload_testflight: {}
     - create_github_release: {}
 
 workflows:
+  # This workflow just clones the project
+  clone:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6.1.1: {}
+    - install-bundler: {}
+    - script@1.1.6:
+        title: Validate SwiftLint plugin
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            mkdir -p ~/Library/org.swift.swiftpm/security
+            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
   # This workflow compiles the project for testing
   build_for_testing:
     steps:
@@ -163,28 +172,42 @@ workflows:
               #!/usr/bin/env bash
 
               echo "Upload to TestFlight"
-  # This workflow will compare latest tag with previous to generate a changelog.
-  generate_changelog:
-    summary: Generate changelog by comparing git tags.
-    steps:
-      - script@1:
-          inputs:
-          - content: |-
-              #!/usr/bin/env bash
-
-              bash ./Scripts/list_release_changes.sh >> ./changelog.txt
-  # This workflow with create a release in GitHub with a changelog.
+  # This workflow with create a GitHub release with changes compared from git tags.
   create_github_release:
+    summary: Create a GitHub release by comparing git tags.
     envs:
       - ENV_CHANGELOG: $BITRISE_SOURCE_DIR/changelog.txt
-    summary: Create release on GitHub with a changelog.
     steps:
-      - script@1:
-          inputs:
-          - content: |-
-              #!/usr/bin/env bash
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6.1.1: {}
+    - install-bundler: {}
+    - script@1.1.6:
+        title: Validate SwiftLint plugin
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
 
-              bundle exec fastlane github_release changelog:$ENV_CHANGELOG
+            mkdir -p ~/Library/org.swift.swiftpm/security
+            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
+    - script@1:
+        title: Generate changelog file to be used when creating release.
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            # Git tags needs to be fetched manually at this point
+            git fetch --tags
+
+            # Generate a changelog in the root of the source
+            bash $BITRISE_SOURCE_DIR/Scripts/list_release_changes.sh >> $BITRISE_SOURCE_DIR/changelog.txt
+    - script@1:
+        title: Create a release in GitHub.
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            bundle exec fastlane github_release changelog:$ENV_CHANGELOG
 trigger_map:
   - push_branch: main
     pipeline: test
