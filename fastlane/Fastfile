@@ -84,4 +84,17 @@ platform :ios do
       output_style: 'raw'
     )
   end
+
+  lane :github_release do |options|
+    api_token = options[:api_token]
+    changelog = options[:changelog]
+
+    set_github_release(
+      repository_name: 'mrksbrgh/Testy',
+      name: "New release",
+      api_token: api_token,
+      tag_name: "release/v1.0.1",
+      description: (File.read(changelog) rescue "No changelog provided!")
+    )
+  end
 end

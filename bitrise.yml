@@ -39,6 +39,12 @@ stages:
   upload_testflight:
     workflows:
     - upload_testflight: {}
+  release:
+    workflows:
+    - run_tests_default_locale: {}
+    - run_tests_swedish_locale: {}
+    - upload_testflight: {}
+    - create_github_release: {}
 
 workflows:
   # This workflow compiles the project for testing
@@ -151,7 +157,28 @@ workflows:
               #!/usr/bin/env bash
 
               echo "Upload to TestFlight"
+  # This workflow will compare latest tag with previous to generate a changelog.
+  generate_changelog:
+    summary: Generate changelog by comparing git tags.
+    steps:
+      - script@1:
+          inputs:
+          - content: |-
+              #!/usr/bin/env bash
 
+              bash ./Scripts/list_release_changes.sh >> ./changelog.txt
+  # This workflow with create a release in GitHub with a changelog.
+  create_github_release:
+    envs:
+      - ENV_CHANGELOG: $BITRISE_SOURCE_DIR/changelog.txt
+    summary: Create release on GitHub with a changelog.
+    steps:
+      - script@1:
+          inputs:
+          - content: |-
+              #!/usr/bin/env bash
+
+              bundle exec fastlane github_release changelog:$ENV_CHANGELOG
 trigger_map:
   - push_branch: main
     pipeline: test
