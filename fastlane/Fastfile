@@ -85,8 +85,103 @@ platform :ios do
     )
   end
 
+  lane :create_release do
+    ensure_git_clean
+
+    ensure_git_branch(
+      branch: 'main'
+    )
+
+    enter_version_prompt
+
+    version_number = version_number(
+      project: project,
+      target: 'Testy'
+    )
+
+    build_number = increment_project_build_number(
+      project: project,
+    )
+
+    puts "The app version for target 'Testy' is #{version_number}"
+    puts "The build number for target 'Testy' is #{build_number}"
+
+    branchName = "release/" + version_number // release/x.x.x
+
+    if remote_exists?(branchName)
+      # Deletes the release branch remote.
+      sh("git push origin -d #{branchName}")
+    end
+
+    if local_exists?(branchName)
+      # Deletes the release branch locally.
+      sh("git branch -D #{branchName}")
+    end
+
+    # Create release/{version_number} branch
+    sh("git checkout -b release/#{version_number}")
+
+    git_commit(
+      path: [
+        "Testy/Info.plist",
+        "Testy.xcodeproj/project.pbxproj"
+      ],
+      message: <<~GIT_COMMIT
+        Bumping the version to #{version_number} for Testy.
+      GIT_COMMIT
+    )
+
+    if git_tag_exists(tag: "RC/v#{version_number}-b#{build_number}", remote: true)
+      # remove remote tag.
+      remove_rc_tag(
+        version_number: version_number,
+        build_number: build_number
+    )
+    end
+
+    if git_tag_exists(tag: "RC/v#{version_number}-b#{build_number}")
+      # remove local tag
+      sh("git tag -d RC/v#{version_number}-b#{build_number}")
+    end
+
+    add_git_tag(
+      tag: "RC/v#{version_number}-b#{build_number}"
+    )
+
+    push_to_git_remote()
+  end
+
+  lane :submit_app_for_review do |options|
+    version_number = version_number(
+      project: project,
+      target: 'Testy'
+    )
+
+    build_number = build_number(
+      project: project,
+      target: 'Testy'
+    )
+
+    # puts version_number
+    # puts build_number
+
+    tag_release(
+      version_number: version_number,
+      build_number: build_number
+    )
+    
+    remove_release_candidate_tag(
+      version_number: version_number,
+      build_number: build_number
+    )
+
+    create_github_release(
+      build_number: build_number,
+      version_number: version_number
+    )
+  end
+
   lane :github_release do |options|
-    api_token = options[:api_token]
     changelog = options[:changelog]
 
     set_github_release(
@@ -96,5 +191,90 @@ platform :ios do
       tag_name: "release/v1.0.1",
       description: (File.read(changelog) rescue "No changelog provided!")
     )
+  end
+
+  desc 'Enter the version to be released'
+  lane :enter_version_prompt do
+    version = prompt(text: 'Enter the version you wanna release in the format of major.minor.patch(1.2.3):')
+    # Sets the version of Hemnet app.
+    increment_version_number(
+      version_number: "#{version}" # Set a specific version number
+    )
+  end
+
+  desc 'Removes the release candidate tag for the specifed version and build'
+  lane :remove_release_candidate_tag do |options|
+    build_number = options[:build_number]
+    version_number = options[:version_number]
+
+    tag = "RC/v#{version_number}-b#{build_number}"
+    sh("git push --delete origin #{tag}")
+  end
+
+  desc 'Finds the release candidate tag for version and build and tags it with release/vX.X.X-bXXX'
+  lane :tag_release do |options|
+    build_number = options[:build_number]
+    version_number = options[:version_number]
+
+    tag = "RC/v#{version_number}-b#{build_number}"
+    commit_hash = sh("git rev-list -1 " + tag)
+
+    add_git_tag(
+      commit: commit_hash,
+      tag: "release/v#{version_number}-b#{build_number}"
+    )
+
+    push_git_tags(
+      tag: "release/v#{version_number}-b#{build_number}"
+    )
+  end
+
+  # Definitions
+
+  def ensure_git_clean
+    ensure_git_status_clean(
+      show_uncommitted_changes: true,
+      show_diff: true
+    )
+  end
+
+  def build_number(project:, target:)
+    get_build_number(
+      xcodeproj: project
+    )
+  end
+
+  def version_number(project:, target:)
+    get_version_number(
+      xcodeproj: project,
+      target: target
+    )
+  end
+
+  def increment_project_build_number(project:)
+    current_build_number = build_number(
+      project: project,
+      target: 'Testy'
+    ).to_i
+
+    next_build_number = current_build_number + 1
+
+    increment_build_number(
+      xcodeproj: project,
+      build_number: next_build_number
+    )
+  end
+
+  def remote_exists?(branch)
+    result = sh("git ls-remote --heads git@github.com:mrksbrgh/testy.git #{branch}")
+
+    !result.strip.empty?
+  end
+
+  def local_exists?(branch)
+    # runs the shell command and stores it in $? exitstatus is 1 if not found.
+    `git show-ref --heads #{branch}`
+
+    $?.exitstatus.zero?
   end
 end
