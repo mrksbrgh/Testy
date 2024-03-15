@@ -180,7 +180,9 @@ workflows:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@6.1.1: {}
+    - git-clone@6.1.1:
+        inputs:
+        - fetch_tags: 'yes'
     - install-bundler: {}
     - script@1.1.6:
         title: Validate SwiftLint plugin
@@ -196,9 +198,6 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
 
-            # Git tags needs to be fetched manually at this point
-            git fetch --tags
-
             # Generate a changelog in the root of the source
             bash $BITRISE_SOURCE_DIR/Scripts/list_release_changes.sh >> $BITRISE_SOURCE_DIR/changelog.txt
     - script@1:
@@ -207,7 +206,7 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
 
-            bundle exec fastlane github_release changelog:$ENV_CHANGELOG
+            bundle exec fastlane create_github_release changelog:$ENV_CHANGELOG
 trigger_map:
-  - push_branch: main
-    pipeline: test
+  - tag: release/*
+    workflow: create_github_release

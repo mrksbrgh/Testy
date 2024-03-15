@@ -106,20 +106,21 @@ platform :ios do
     puts "The app version for target 'Testy' is #{version_number}"
     puts "The build number for target 'Testy' is #{build_number}"
 
-    branchName = "release/" + version_number // release/x.x.x
+    branch_name = "release/v" + version_number # release/v1.2.3
+    release_candidate_tag = "RC/v#{version_number}-b#{build_number}" # RC/v1.2.3-b1
 
-    if remote_exists?(branchName)
+    if remote_exists?(branch_name)
       # Deletes the release branch remote.
-      sh("git push origin -d #{branchName}")
+      sh("git push origin -d #{branch_name}")
     end
 
-    if local_exists?(branchName)
+    if local_exists?(branch_name)
       # Deletes the release branch locally.
-      sh("git branch -D #{branchName}")
+      sh("git branch -D #{branch_name}")
     end
 
     # Create release/{version_number} branch
-    sh("git checkout -b release/#{version_number}")
+    sh("git checkout -b #{branch_name}")
 
     git_commit(
       path: [
@@ -131,21 +132,69 @@ platform :ios do
       GIT_COMMIT
     )
 
-    if git_tag_exists(tag: "RC/v#{version_number}-b#{build_number}", remote: true)
+    if git_tag_exists(tag: "#{release_candidate_tag}", remote: true)
+      # remove remote tag.
+      remove_release_candidate_tag(
+        version_number: version_number
+      )
+    end
+
+    if git_tag_exists(tag: "#{release_candidate_tag}")
+      # remove local tag
+      sh("git tag -d #{release_candidate_tag}")
+    end
+
+    add_git_tag(
+      tag: "#{release_candidate_tag}"
+    )
+
+    push_to_git_remote()
+  end
+
+  lane :create_release_patch do    
+    version_number = version_number(
+      project: project,
+      target: 'Testy'
+    )
+
+    build_number = increment_project_build_number(
+      project: project,
+    )
+
+    branch_name = "release/v" + version_number # release/v1.2.3
+    release_candidate_tag = "RC/v#{version_number}-b#{build_number}" # RC/v1.2.3-b1
+
+    ensure_git_branch(
+      branch: "#{branch_name}"
+    )
+
+    git_commit(
+      path: [
+        "Testy/Info.plist",
+        "Testy.xcodeproj/project.pbxproj"
+      ],
+      message: <<~GIT_COMMIT
+        Bumping the build number to #{build_number} for Testy.
+      GIT_COMMIT
+    )
+
+    ensure_git_clean
+
+    if git_tag_exists(tag: "#{release_candidate_tag}", remote: true)
       # remove remote tag.
       remove_rc_tag(
         version_number: version_number,
         build_number: build_number
-    )
+      )
     end
 
-    if git_tag_exists(tag: "RC/v#{version_number}-b#{build_number}")
+    if git_tag_exists(tag: "#{release_candidate_tag}")
       # remove local tag
-      sh("git tag -d RC/v#{version_number}-b#{build_number}")
+      sh("git tag -d #{release_candidate_tag}")
     end
 
     add_git_tag(
-      tag: "RC/v#{version_number}-b#{build_number}"
+      tag: "#{release_candidate_tag}"
     )
 
     push_to_git_remote()
@@ -158,38 +207,51 @@ platform :ios do
     )
 
     build_number = build_number(
-      project: project,
-      target: 'Testy'
+      project: project
     )
-
-    # puts version_number
-    # puts build_number
 
     tag_release(
       version_number: version_number,
       build_number: build_number
     )
+
+    branch_name = "release/v" + version_number # release/v1.2.3
+    release_candidate_tag = "RC/v#{version_number}-b#{build_number}" # RC/v1.2.3-b1
+
+    if local_exists?(branch_name)
+      # Make sure we are not on the release branch
+      if git_branch == branch_name
+        sh("git checkout main")
+      end
+
+      # Delete the local release branch
+      sh("git branch -D #{branch_name}")
+    end
+
+    if git_tag_exists(tag: "#{release_candidate_tag}")
+      # Delete the local release candidate tag
+      sh("git tag -d #{release_candidate_tag}")
+    end
     
     remove_release_candidate_tag(
-      version_number: version_number,
-      build_number: build_number
-    )
-
-    create_github_release(
-      build_number: build_number,
       version_number: version_number
     )
   end
 
-  lane :github_release do |options|
+  lane :create_github_release do |options|
+    version_number = version_number(
+      project: project,
+      target: 'Testy'
+    )
+
     changelog = options[:changelog]
 
     set_github_release(
       repository_name: 'mrksbrgh/Testy',
-      name: "v1.0.1",
+      name: version_number,
       api_token: ENV['GITHUB_API_TOKEN'],
-      tag_name: "release/v1.0.1",
-      description: (File.read(changelog) rescue "No changelog provided!")
+      tag_name: last_git_tag(),
+      description: (File.read("#{changelog}") rescue "No changelog provided")
     )
   end
 
@@ -202,13 +264,12 @@ platform :ios do
     )
   end
 
-  desc 'Removes the release candidate tag for the specifed version and build'
+  desc 'Removes the release candidate tag for the specifed version including all builds'
   lane :remove_release_candidate_tag do |options|
-    build_number = options[:build_number]
     version_number = options[:version_number]
 
-    tag = "RC/v#{version_number}-b#{build_number}"
-    sh("git push --delete origin #{tag}")
+    tag = "RC/v#{version_number}*"
+    sh("git push --delete origin $(git tag --list '#{tag}')")
   end
 
   desc 'Finds the release candidate tag for version and build and tags it with release/vX.X.X-bXXX'
@@ -238,7 +299,7 @@ platform :ios do
     )
   end
 
-  def build_number(project:, target:)
+  def build_number(project:)
     get_build_number(
       xcodeproj: project
     )
@@ -253,8 +314,7 @@ platform :ios do
 
   def increment_project_build_number(project:)
     current_build_number = build_number(
-      project: project,
-      target: 'Testy'
+      project: project
     ).to_i
 
     next_build_number = current_build_number + 1

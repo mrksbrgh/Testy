@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct TestyApp: App {
   private var name: String = "Name"
+  private var address: String = "Address"
 
   var body: some Scene {
     WindowGroup {

@@ -47,6 +47,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### ios create_release_patch
+
+```sh
+[bundle exec] fastlane ios create_release_patch
+```
+
+
+
 ### ios submit_app_for_review
 
 ```sh
@@ -55,10 +63,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
-### ios github_release
+### ios create_github_release
 
 ```sh
-[bundle exec] fastlane ios github_release
+[bundle exec] fastlane ios create_github_release
 ```
 
 
@@ -70,6 +78,22 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 ```
 
 Enter the version to be released
+
+### ios remove_release_candidate_tag
+
+```sh
+[bundle exec] fastlane ios remove_release_candidate_tag
+```
+
+Removes the release candidate tag for the specifed version including all builds
+
+### ios tag_release
+
+```sh
+[bundle exec] fastlane ios tag_release
+```
+
+Finds the release candidate tag for version and build and tags it with release/vX.X.X-bXXX
 
 ----
 
