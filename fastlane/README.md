@@ -39,6 +39,22 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### ios create_release
+
+```sh
+[bundle exec] fastlane ios create_release
+```
+
+
+
+### ios submit_app_for_review
+
+```sh
+[bundle exec] fastlane ios submit_app_for_review
+```
+
+
+
 ### ios github_release
 
 ```sh
@@ -46,6 +62,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 ```
 
 
+
+### ios enter_version_prompt
+
+```sh
+[bundle exec] fastlane ios enter_version_prompt
+```
+
+Enter the version to be released
 
 ----
 
