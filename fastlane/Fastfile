@@ -181,10 +181,9 @@ platform :ios do
     ensure_git_clean
 
     if git_tag_exists(tag: "#{release_candidate_tag}", remote: true)
-      # remove remote tag.
-      remove_rc_tag(
-        version_number: version_number,
-        build_number: build_number
+      # remove remote tag
+      remove_release_candidate_tag(
+        version_number: version_number
       )
     end
 
@@ -297,11 +296,36 @@ platform :ios do
       target: 'Testy'
     )
 
+    current_build_number = build_number(
+      project: project
+    )
+
+    previous_release_candidate_tag = "RC/v#{version_number}-b#{current_build_number}" # RC/v1.2.3-b1
+
+    # Delete any previous git tag for this version before pushing a new
+    if git_tag_exists(tag: "#{previous_release_candidate_tag}")
+      sh("git tag -d #{previous_release_candidate_tag}")
+    end
+
+    if git_tag_exists(tag: "#{previous_release_candidate_tag}", remote: true)
+      sh("git push origin -d #{previous_release_candidate_tag}")
+    end
+
     build_number = increment_project_build_number(
       project: project
     )
 
     release_candidate_tag = "RC/v#{version_number}-b#{build_number}" # RC/v1.2.3-b1
+
+    git_commit(
+      path: [
+        "Testy/Info.plist",
+        "Testy.xcodeproj/project.pbxproj"
+      ],
+      message: <<~GIT_COMMIT
+        Bumping the build number to #{build_number} for Testy.
+      GIT_COMMIT
+    )
 
     add_git_tag(
       tag: "#{release_candidate_tag}"
