@@ -181,10 +181,9 @@ platform :ios do
     ensure_git_clean
 
     if git_tag_exists(tag: "#{release_candidate_tag}", remote: true)
-      # remove remote tag.
-      remove_rc_tag(
-        version_number: version_number,
-        build_number: build_number
+      # remove remote tag
+      remove_release_candidate_tag(
+        version_number: version_number
       )
     end
 
@@ -297,6 +296,10 @@ platform :ios do
       target: 'Testy'
     )
 
+    current_build_number = build_number(
+      project: project
+    )
+
     build_number = increment_project_build_number(
       project: project
     )
@@ -304,11 +307,13 @@ platform :ios do
     release_candidate_tag = "RC/v#{version_number}-b#{build_number}" # RC/v1.2.3-b1
 
     add_git_tag(
-      tag: "#{release_candidate_tag}"
+      tag: "#{release_candidate_tag}",
+      force: true
     )
 
     push_git_tags(
-      tag: "#{release_candidate_tag}"
+      tag: "#{release_candidate_tag}",
+      force: true
     )
   end
 
