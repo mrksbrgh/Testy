@@ -290,7 +290,29 @@ platform :ios do
     )
   end
 
-  # Definitions
+  desc 'Creates a git tag from the latest commit and push to remote'
+  lane :create_git_tag do
+    version_number = version_number(
+      project: project,
+      target: 'Testy'
+    )
+
+    build_number = increment_project_build_number(
+      project: project
+    )
+
+    release_candidate_tag = "RC/v#{version_number}-b#{build_number}" # RC/v1.2.3-b1
+
+    add_git_tag(
+      tag: "#{release_candidate_tag}"
+    )
+
+    push_git_tags(
+      tag: "#{release_candidate_tag}"
+    )
+  end
+
+  # Functions
 
   def ensure_git_clean
     ensure_git_status_clean(

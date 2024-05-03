@@ -207,6 +207,33 @@ workflows:
             #!/usr/bin/env bash
 
             bundle exec fastlane create_github_release changelog:$ENV_CHANGELOG
+  create_github_tag:
+    summary: Create a git tag from latest commit.
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6.1.1:
+        inputs:
+        - fetch_tags: 'yes'
+    - install-bundler: {}
+    - script@1.1.6:
+        title: Validate SwiftLint plugin
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            mkdir -p ~/Library/org.swift.swiftpm/security
+            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
+    - script@1:
+        title: Create a git tag and push remotely.
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            bundle exec fastlane create_git_tag
 trigger_map:
   - tag: release/*
     workflow: create_github_release
+  - type: push
+    push_branch: main
+    workflow: create_github_tag
