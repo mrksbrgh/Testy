@@ -68,6 +68,7 @@ workflows:
         - webhook_url_on_error: $SLACK_WEBHOOK_URL
         - is_debug_mode: "yes"
     - deploy-to-bitrise-io@2:
+        run_if: not .IsBuildFailed
         inputs:
         - pipeline_intermediate_files: |-
             $BITRISE_SOURCE_DIR/Testy.xcodeproj:BITRISE_PROJECT_FILE_PATH
