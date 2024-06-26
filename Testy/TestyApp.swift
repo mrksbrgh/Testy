@@ -11,7 +11,7 @@ import SwiftUI
 struct TestyApp: App {
   private var name: String = "Name"
   private var address: String = "Address"
-  private var phone: String = "Phone"
+  private var phone: String = "Phone
 
   var body: some Scene {
     WindowGroup {
