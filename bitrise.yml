@@ -1,22 +1,17 @@
----
 format_version: "11"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
-
 meta:
   bitrise.io:
     stack: osx-xcode-15.0.x
     machine_type_id: g2-m1.4core
-
 app:
   envs:
-    - BITRISE_PROJECT_PATH: Testy.xcodeproj
-    - BITRISE_SCHEME: Testy
-    - BITRISE_PACKAGE_TEST_SCHEME: MyLibraryTests
-    - BITRISE_DISTRIBUTION_METHOD: development
-
+  - BITRISE_PROJECT_PATH: Testy.xcodeproj
+  - BITRISE_SCHEME: Testy
+  - BITRISE_PACKAGE_TEST_SCHEME: MyLibraryTests
+  - BITRISE_DISTRIBUTION_METHOD: development
 pipelines:
-  # Pipeline using environment variables
   test:
     stages:
     - build_tests: {}
@@ -25,14 +20,11 @@ pipelines:
   release:
     stages:
     - release: {}
-
 stages:
-  # Build stage only for testing
   build_tests:
     title: Build for testing
     workflows:
     - build_for_testing: {}
-  # Test stage using environment variables
   run_tests:
     title: Stage with variables
     abort_on_fail: true
@@ -45,24 +37,7 @@ stages:
   release:
     workflows:
     - create_github_release: {}
-
 workflows:
-  # This workflow just clones the project
-  clone:
-    steps:
-    - activate-ssh-key@4:
-        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@6.1.1: {}
-    - install-bundler: {}
-    - script@1.1.6:
-        title: Validate SwiftLint plugin
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            mkdir -p ~/Library/org.swift.swiftpm/security
-            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
-  # This workflow compiles the project for testing
   build_for_testing:
     steps:
     - activate-ssh-key@4:
@@ -84,6 +59,14 @@ workflows:
             #!/usr/bin/env bash
 
             bundle exec fastlane build_for_testing
+    - slack@4:
+        is_always_run: true
+        run_if: .IsBuildFailed
+        inputs:
+        - channel_on_error: test-ci
+        - webhook_url: $SLACK_WEBHOOK_URL
+        - webhook_url_on_error: $SLACK_WEBHOOK_URL
+        - is_debug_mode: "yes"
     - deploy-to-bitrise-io@2:
         inputs:
         - pipeline_intermediate_files: |-
@@ -92,55 +75,7 @@ workflows:
             $BITRISE_SOURCE_DIR/Gemfile.lock:BITRISE_GEMFILE_LOCK_PATH
             $BITRISE_SOURCE_DIR/fastlane:BITRISE_FASTLANE_PATH
             $BITRISE_DEPLOY_DIR:BITRISE_DEPLOY_DIR
-  # This workflow runs the tests using system language and region
-  run_tests_default_locale:
-    steps:
-    - activate-ssh-key@4:
-        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - pull-intermediate-files@1:
-        inputs:
-        - artifact_sources: 'build_tests.build_for_testing'
-    - change-workdir@1.0.3:
-        inputs:
-        - path: '$BITRISE_DEPLOY_DIR/..'
-        - is_create_path: false
-    - install-bundler:
-        inputs:
-        - gemfile_path: '$BITRISE_GEMFILE_LOCK_PATH'
-    - script@1.1.6:
-        title: Run tests with system language and region
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            bundle exec fastlane tests_without_building
-  # This workflow runs the tests using Swedish language and region
-  run_tests_swedish_locale:
-    envs:
-      - ENV_LANGUAGE: sv
-      - ENV_REGION: SE
-    steps:
-    - activate-ssh-key@4:
-        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - pull-intermediate-files@1:
-        inputs:
-        - artifact_sources: 'build_tests.build_for_testing'
-    - change-workdir@1.0.3:
-        inputs:
-        - path: '$BITRISE_DEPLOY_DIR/..'
-        - is_create_path: false
-    - install-bundler:
-        inputs:
-        - gemfile_path: '$BITRISE_GEMFILE_LOCK_PATH'
-    - script@1.1.6:
-        title: Run tests with Swedish language and region
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            bundle exec fastlane tests_without_building test_language:$ENV_LANGUAGE test_region:$ENV_REGION
-  # This workflow builds and runs the tests using system language and region
-  run_tests:
+  clone:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
@@ -154,35 +89,16 @@ workflows:
 
             mkdir -p ~/Library/org.swift.swiftpm/security
             cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
-    - script@1.1.6:
-        title: Build and run tests with system language and region
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-
-            bundle exec fastlane tests          
-  # This workflow simulates an upload of binary to TestFlight.
-  upload_testflight:
-    summary: Fakes an upload to TestFlight.
-    description: This workflow will just echo some text by running a script.
-    steps:
-      - script@1:
-          inputs:
-          - content: |-
-              #!/usr/bin/env bash
-
-              echo "Upload to TestFlight"
-  # This workflow with create a GitHub release with changes compared from git tags.
   create_github_release:
     summary: Create a GitHub release by comparing git tags.
     envs:
-      - ENV_CHANGELOG: $BITRISE_SOURCE_DIR/changelog.txt
+    - ENV_CHANGELOG: $BITRISE_SOURCE_DIR/changelog.txt
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@6.1.1:
         inputs:
-        - fetch_tags: 'yes'
+        - fetch_tags: "yes"
     - install-bundler: {}
     - script@1.1.6:
         title: Validate SwiftLint plugin
@@ -214,7 +130,7 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@6.1.1:
         inputs:
-        - fetch_tags: 'yes'
+        - fetch_tags: "yes"
     - install-bundler: {}
     - script@1.1.6:
         title: Validate SwiftLint plugin
@@ -231,9 +147,82 @@ workflows:
             #!/usr/bin/env bash
 
             bundle exec fastlane create_git_tag
+  run_tests:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@6.1.1: {}
+    - install-bundler: {}
+    - script@1.1.6:
+        title: Validate SwiftLint plugin
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            mkdir -p ~/Library/org.swift.swiftpm/security
+            cp -r ./.swiftplugin/security/ ~/Library/org.swift.swiftpm/security
+    - script@1.1.6:
+        title: Build and run tests with system language and region
+        inputs:
+        - content: "#!/usr/bin/env bash\n\nbundle exec fastlane tests          "
+  run_tests_default_locale:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - pull-intermediate-files@1:
+        inputs:
+        - artifact_sources: build_tests.build_for_testing
+    - change-workdir@1.0.3:
+        inputs:
+        - path: $BITRISE_DEPLOY_DIR/..
+        - is_create_path: false
+    - install-bundler:
+        inputs:
+        - gemfile_path: $BITRISE_GEMFILE_LOCK_PATH
+    - script@1.1.6:
+        title: Run tests with system language and region
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            bundle exec fastlane tests_without_building
+  run_tests_swedish_locale:
+    envs:
+    - ENV_LANGUAGE: sv
+    - ENV_REGION: SE
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - pull-intermediate-files@1:
+        inputs:
+        - artifact_sources: build_tests.build_for_testing
+    - change-workdir@1.0.3:
+        inputs:
+        - path: $BITRISE_DEPLOY_DIR/..
+        - is_create_path: false
+    - install-bundler:
+        inputs:
+        - gemfile_path: $BITRISE_GEMFILE_LOCK_PATH
+    - script@1.1.6:
+        title: Run tests with Swedish language and region
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            bundle exec fastlane tests_without_building test_language:$ENV_LANGUAGE test_region:$ENV_REGION
+  upload_testflight:
+    summary: Fakes an upload to TestFlight.
+    description: This workflow will just echo some text by running a script.
+    steps:
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+
+            echo "Upload to TestFlight"
 trigger_map:
-  - tag: release/*
-    workflow: create_github_release
-  - type: push
-    push_branch: main
-    workflow: create_github_tag
+- type: push
+  push_branch: main
+  workflow: create_github_tag
+- tag: release/*
+  workflow: create_github_release
