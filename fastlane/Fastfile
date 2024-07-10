@@ -263,6 +263,36 @@ platform :ios do
     )
   end
 
+  desc 'Creates (or replaces if needed) a release candidate git tag'
+  lane :create_release_candidate_tag do
+    build_number = 1234 # lane_context[SharedValues::LATEST_TESTFLIGHT_BUILD_NUMBER]
+    version_number = "1.0.0" # lane_context[SharedValues::LATEST_TESTFLIGHT_VERSION] 
+    
+    previous_release_candidate_tag = "RC/v#{version_number}\*"
+
+    if git_tag_exists(tag: "#{previous_release_candidate_tag}", remote: true)
+      # Make sure to delete any **remote** previous release candidate tag if needed
+      sh("git push -d origin $(git tag -l #{previous_release_candidate_tag})")
+    end
+
+    local_previous_release_candidate_tag = sh("git tag -l \"#{previous_release_candidate_tag}\"")
+    
+    unless local_previous_release_candidate_tag.to_s.strip.empty?
+      # Make sure to delete any **local** previous release candidate tag if needed
+      sh("git tag -d $(git tag -l #{previous_release_candidate_tag})")
+    end
+
+    release_candidate_tag = "RC/v#{version_number}-b#{build_number}"
+
+    add_git_tag(
+      tag: "#{release_candidate_tag}"
+    )
+
+    push_git_tags(
+      tag: "#{release_candidate_tag}"
+    )
+  end
+
   desc 'Removes the release candidate tag for the specifed version including all builds'
   lane :remove_release_candidate_tag do |options|
     version_number = options[:version_number]

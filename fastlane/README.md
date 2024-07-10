@@ -79,6 +79,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Enter the version to be released
 
+### ios create_release_candidate_tag
+
+```sh
+[bundle exec] fastlane ios create_release_candidate_tag
+```
+
+Creates (or replaces if needed) a release candidate git tag
+
 ### ios remove_release_candidate_tag
 
 ```sh
@@ -94,6 +102,14 @@ Removes the release candidate tag for the specifed version including all builds
 ```
 
 Finds the release candidate tag for version and build and tags it with release/vX.X.X-bXXX
+
+### ios create_git_tag
+
+```sh
+[bundle exec] fastlane ios create_git_tag
+```
+
+Creates a git tag from the latest commit and push to remote
 
 ----
 
